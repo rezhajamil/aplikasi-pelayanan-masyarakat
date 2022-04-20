@@ -1,0 +1,25 @@
+type Orders @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  userId: ID!
+  purposes: [String!]!
+  ktp: String
+  kk: String
+  status: String
+  description: String!
+  createdAt: AWSDateTime!
+}
+
+type Users @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  email: AWSEmail!
+  phone: String!
+  nik: String!
+  address: String!
+  name: String!
+  birthDate: AWSDate!
+  birthPlace: String
+  avatar: String
+  occupation: String!
+  role: String!
+  emailVerifiedAt: AWSDateTime
+}
