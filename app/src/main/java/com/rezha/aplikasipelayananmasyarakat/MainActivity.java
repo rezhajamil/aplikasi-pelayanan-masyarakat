@@ -1,9 +1,13 @@
 package com.rezha.aplikasipelayananmasyarakat;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.FrameLayout;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
@@ -14,7 +18,13 @@ import com.amplifyframework.core.model.temporal.Temporal;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
 import com.amplifyframework.datastore.generated.model.Orders;
 import com.amplifyframework.datastore.generated.model.Users;
+import com.google.android.material.navigation.NavigationBarView;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +33,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        FragmentManager fm=getSupportFragmentManager();
+        FragmentTransaction ft=fm.beginTransaction();
+
+        ft.replace(R.id.fragment_container,new HomeFragment());
 
         try {
             Amplify.addPlugin(new AWSApiPlugin());
@@ -47,8 +63,37 @@ public class MainActivity extends AppCompatActivity {
         );
 
         Amplify.Auth.signInWithSocialWebUI(AuthProvider.google(), this,
-                result -> Log.i("AuthQuickstart", result.toString()),
+                result -> {
+                    Amplify.Auth.fetchUserAttributes(
+                            attributes -> Log.i("AuthDemo", "User attributes = " + attributes.toString()),
+                            error -> Log.e("AuthDemo", "Failed to fetch user attributes.", error)
+                    );
+                    Log.i("AuthQuickstart", result.toString());
+                },
                 error -> Log.e("AuthQuickstart", error.toString())
         );
+
+        try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            Connection con = DriverManager.getConnection(
+                    "jdbc:oracle:thin:@ec2-18-136-103-3.ap-southeast-1.compute.amazonaws.com:1521:xe",
+                    "dina", "dina");
+
+
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(
+                    "Select * from customers"
+            );
+
+            while (rs.next())
+                System.out.println(rs.getInt(1)+ " "+rs.getString(2));
+            con.close();
+
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
