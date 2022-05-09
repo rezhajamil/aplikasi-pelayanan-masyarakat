@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -20,6 +23,8 @@ import java.sql.Statement;
  */
 public class HomeFragment extends Fragment {
 
+    Boolean isFABOpen=false;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -30,29 +35,34 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_home, container, false);
 
-        try {
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            Connection con = DriverManager.getConnection(
-                    "jdbc:oracle:thin:@ec2-18-136-103-3.ap-southeast-1.compute.amazonaws.com:1521:xe",
-                    "dina", "dina");
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.floatingActionButton);
+        ExtendedFloatingActionButton btnOrder2 = (ExtendedFloatingActionButton) view.findViewById(R.id.btn_add_order2);
+        ExtendedFloatingActionButton btnAkte = (ExtendedFloatingActionButton) view.findViewById(R.id.btn_add_akte);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!isFABOpen){
+                    showFABMenu();
+                }else{
+                    closeFABMenu();
+                }
+            }
 
+            private void showFABMenu(){
+                isFABOpen=true;
+                btnOrder2.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
+                btnAkte.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
+            }
 
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(
-                    "Select * from customers"
-            );
-
-            while (rs.next())
-                System.out.println(rs.getInt(1)+ " "+rs.getString(2));
-            con.close();
-
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            private void closeFABMenu(){
+                isFABOpen=false;
+                btnOrder2.animate().translationY(0);
+                btnAkte.animate().translationY(0);
+            }
+        });
 
         return  view;
     }
+
+
 }
