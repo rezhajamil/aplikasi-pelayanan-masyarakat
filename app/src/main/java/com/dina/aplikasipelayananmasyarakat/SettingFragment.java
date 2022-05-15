@@ -1,4 +1,4 @@
-package com.rezha.aplikasipelayananmasyarakat;
+package com.dina.aplikasipelayananmasyarakat;
 
 import android.os.Bundle;
 

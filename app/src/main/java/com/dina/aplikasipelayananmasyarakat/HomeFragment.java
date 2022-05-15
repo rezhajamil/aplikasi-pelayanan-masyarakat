@@ -1,4 +1,4 @@
-package com.rezha.aplikasipelayananmasyarakat;
+package com.dina.aplikasipelayananmasyarakat;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,12 +9,6 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  * A simple {@link Fragment} subclass.

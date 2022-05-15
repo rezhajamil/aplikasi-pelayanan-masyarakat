@@ -1,4 +1,4 @@
-package com.rezha.aplikasipelayananmasyarakat;
+package com.dina.aplikasipelayananmasyarakat;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.amplifyframework.auth.AuthProvider;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
 
 import java.sql.Connection;
@@ -39,6 +40,9 @@ public class LoginActivity extends AppCompatActivity {
         progress.setMessage("Wait while loading...");
         progress.setCancelable(false);
         progress.show();
+
+
+//        Amplify.addPlugin(new AWSCognitoAuthPlugin());
         Amplify.Auth.signInWithSocialWebUI(AuthProvider.google(), this,
                 result -> {
                     if (result.isSignInComplete()){

@@ -1,8 +1,7 @@
-package com.rezha.aplikasipelayananmasyarakat;
+package com.dina.aplikasipelayananmasyarakat;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,10 +18,12 @@ public class SplashScreenActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                ConnectionHelper help=new ConnectionHelper();
+                help.test();
                 Intent intent=new Intent(SplashScreenActivity.this,MainActivity.class);
                 startActivity(intent);
                 finish();
             }
-        },3000);
+        },1000);
     }
 }

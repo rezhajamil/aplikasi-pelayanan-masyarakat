@@ -1,4 +1,4 @@
-package com.rezha.aplikasipelayananmasyarakat;
+package com.dina.aplikasipelayananmasyarakat;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -9,10 +9,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
-import com.amplifyframework.auth.AuthProvider;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthSession;
 import com.amplifyframework.core.Amplify;
@@ -47,11 +47,11 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         });
-        ProgressDialog progress = new ProgressDialog(this);
-        progress.setTitle("Loading");
-        progress.setMessage("Wait while loading...");
-        progress.setCancelable(false);
-        progress.show();
+//        ProgressDialog progress = new ProgressDialog(this);
+//        progress.setTitle("Loading");
+//        progress.setMessage("Wait while loading...");
+//        progress.setCancelable(false);
+//        progress.show();
 
         try {
             Amplify.addPlugin(new AWSApiPlugin());
@@ -107,38 +107,47 @@ public class MainActivity extends AppCompatActivity {
 //                }
 //        );
 
-        Amplify.Auth.fetchAuthSession(
-                result -> {
-                    AWSCognitoAuthSession cognitoAuthSession = (AWSCognitoAuthSession) result;
-                    switch(cognitoAuthSession.getIdentityId().getType()) {
-                        case SUCCESS:
-                            Amplify.Auth.fetchUserAttributes(
-                                    attributes->{
-                                    String email=attributes.get(3).getValue();
-                                    if (!email.isEmpty()){
-                                        int total=getUserData(email);
-                                        if (total<=0){
-                                            startActivity(new Intent(MainActivity.this,RegisterActivity.class));
-                                            finish();
-                                        }
-                                    }else{
-                                        startActivity(new Intent(MainActivity.this,LoginActivity.class));
-                                        finish();
-                                    }
-                                    progress.dismiss();
-                                },
-                                    error -> Log.e("AuthDemo", "Failed to fetch user attributes.", error)
-                            );
-                            Log.i("Session", "IdentityId: " + cognitoAuthSession.toString());
-                            break;
-                        case FAILURE:
-                            startActivity(new Intent(MainActivity.this,LoginActivity.class));
-                            finish();
-                            Log.i("Session", "IdentityId not present because: " + cognitoAuthSession.getIdentityId().getError().toString());
-                    }
-                },
-                error -> Log.e("Session", error.toString())
-        );
+//        Amplify.Auth.fetchAuthSession(
+//                result -> {
+//                    AWSCognitoAuthSession cognitoAuthSession = (AWSCognitoAuthSession) result;
+//                    switch(cognitoAuthSession.getIdentityId().getType()) {
+//                        case SUCCESS:
+//                            Amplify.Auth.fetchUserAttributes(
+//                                    attributes->{
+//                                    String email=attributes.get(3).getValue();
+//                                    if (!email.isEmpty()){
+//                                        int total=getUserData(email);
+//                                        if (total<=0){
+//                                            startActivity(new Intent(MainActivity.this,RegisterActivity.class));
+//                                            finish();
+//                                        }
+//                                    }else{
+//                                        startActivity(new Intent(MainActivity.this,LoginActivity.class));
+//                                        finish();
+//                                    }
+//                                    progress.dismiss();
+//                                },
+//                                    error -> Log.e("AuthDemo", "Failed to fetch user attributes.", error)
+//                            );
+//                            Log.i("Session", "IdentityId: " + cognitoAuthSession.toString());
+//                            break;
+//                        case FAILURE:
+//                            startActivity(new Intent(MainActivity.this,LoginActivity.class));
+//                            finish();
+//                            Log.i("Session", "IdentityId not present because: " + cognitoAuthSession.getIdentityId().getError().toString());
+//                    }
+//                },
+//                error -> Log.e("Session", error.toString())
+//        );
+
+        ConnectionHelper connectionHelper=new ConnectionHelper();
+        Connection connect =connectionHelper.connections();
+
+        if (connect!=null){
+            Toast.makeText(MainActivity.this,"Koneksi Berhasil",Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(MainActivity.this,"Koneksi Gagal",Toast.LENGTH_LONG).show();
+        }
     }
 
     private void replaceFragment(Fragment fragment){
@@ -158,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (connect==null){
                 String ConnectionResult="Check Your Internet Connection";
+                Log.d("conn",ConnectionResult);
             }else{
                 String query="Select count(*) as total from users where email="+email;
                 Statement stmt=connect.createStatement();
@@ -166,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
                 while (rs.next()){
                     total=rs.getInt("total");
                 }
+                connect.close();
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

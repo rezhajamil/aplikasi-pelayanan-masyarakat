@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.rezha.aplikasipelayananmasyarakat">
+    package="com.dina.aplikasipelayananmasyarakat">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -25,13 +25,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AplikasiPelayananMasyarakat">
         <activity
-            android:name=".LoginActivity"
+            android:name="com.dina.aplikasipelayananmasyarakat.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name="com.dina.aplikasipelayananmasyarakat.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashScreenActivity"
+            android:name="com.dina.aplikasipelayananmasyarakat.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,7 +40,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.dina.aplikasipelayananmasyarakat.MainActivity"
             android:exported="true" />
         <activity
             android:name="com.amplifyframework.auth.cognito.activities.HostedUIRedirectActivity"

@@ -6,7 +6,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.rezha.aplikasipelayananmasyarakat"
+        applicationId "com.dina.aplikasipelayananmasyarakat"
         minSdk 21
         targetSdk 31
         versionCode 1
@@ -39,6 +39,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation files('C:\\Users\\acer\\AndroidStudioProjects\\ProjectRezha\\aplikasi-pelayanan-masyarakat\\app\\libs\\jtds-1.3.1.jar')
+    implementation files('C:\\Users\\acer\\OneDrive\\Dokumen\\Freelance\\Dina - Aplikasi Pelayanan Masyarakat di Dusun II Desa Kecamatan Bandar Pasir Mandoge/ojdbc11.jar')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
