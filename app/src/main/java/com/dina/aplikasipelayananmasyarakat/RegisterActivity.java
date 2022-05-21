@@ -3,6 +3,7 @@ package com.dina.aplikasipelayananmasyarakat;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.amplifyframework.core.Amplify;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -67,6 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
                 addUser();
             }
         });
+
     }
 
     private boolean validateInput(){
@@ -114,23 +117,80 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void addUser(){
         if (validateInput()){
-            try {
-                ConnectionHelper connectionHelper=new ConnectionHelper();
-                Connection connect =connectionHelper.connections();
-
+            ConnectionHelper connectionHelper=new ConnectionHelper();
+            Connection connect =connectionHelper.connections();
+            try{
                 if (connect==null){
                     String ConnectionResult="Check Your Internet Connection";
                     Toast.makeText(RegisterActivity.this,ConnectionResult,Toast.LENGTH_LONG).show();
                 }else{
-                    String query=String.format("Insert into users values (%s,%s,%s,%s,%s,%s,%s,null,%s,%s",etEmail.getText(),etPhone.getText(),etNik.getText(),etName.getText(),etAddress.getText(),etBirthDate.getText(),etBirthPlace.getText(),etOccupation.getText(),"1");
+                    String query=String.format("Insert into users values ('%s','%s','%s','%s','%s','%s','%s',null,'%s',%d)",etEmail.getText(),etPhone.getText(),etNik.getText(),etName.getText(),etAddress.getText(),etBirthDate.getText(),etBirthPlace.getText(),etOccupation.getText(),1);
                     Statement stmt=connect.createStatement();
                     stmt.executeUpdate(query);
-                    connect.close();
+
+                    SharedPreferences sharedPreferences=getSharedPreferences("User",0);
+                    SharedPreferences.Editor editor=sharedPreferences.edit();
+
+                    editor.putString("email", String.valueOf(etEmail.getText()));
+                    editor.putString("phone", String.valueOf(etPhone.getText()));
+                    editor.putString("nik", String.valueOf(etNik.getText()));
+                    editor.putString("name", String.valueOf(etName.getText()));
+                    editor.putString("address", String.valueOf(etAddress.getText()));
+                    editor.putString("birthDate", String.valueOf(etBirthDate.getText()));
+                    editor.putString("birthPlace", String.valueOf(etBirthPlace.getText()));
+                    editor.putString("avatar",null);
+                    editor.putString("occupation", String.valueOf(etOccupation.getText()));
+                    editor.putInt("role",1);
+                    editor.apply();
+
+                    Toast.makeText(RegisterActivity.this,"Berhasil Register",Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(RegisterActivity.this,MainActivity.class));
+                    finish();
+                    connect.close();
                 }
             } catch (SQLException throwables) {
-                throwables.printStackTrace();
+                Log.e("gagal",throwables.toString());
             }
         }
     }
+
+//    public void saveUserData(String email){
+//        ResultSet rs=null;
+//        try {
+//            ConnectionHelper connectionHelper=new ConnectionHelper();
+//            Connection connect =connectionHelper.connections();
+//
+//            if (connect==null){
+//                String ConnectionResult="Check Your Internet Connection";
+//            }else{
+//                String query="Select *from users where email="+email;
+//                Statement stmt=connect.createStatement();
+//                rs=stmt.executeQuery(query);
+//
+//                SharedPreferences sharedPreferences=getSharedPreferences("User",0);
+//                SharedPreferences.Editor editor=sharedPreferences.edit();
+//
+//                while (rs.next()){
+//                    editor.putString("email", String.valueOf(etEmail.getText()));
+//                    editor.putString("phone", String.valueOf(etPhone.getText()));
+//                    editor.putString("nik", String.valueOf(etNik.getText()));
+//                    editor.putString("name", String.valueOf(etName.getText()));
+//                    editor.putString("address", String.valueOf(etAddress.getText()));
+//                    editor.putString("birthDate", String.valueOf(etBirthDate.getText()));
+//                    editor.putString("birthPlace", String.valueOf(etBirthPlace.getText()));
+//                    editor.putString("avatar",null);
+//                    editor.putString("occupation", String.valueOf(etOccupation.getText()));
+//                    editor.putInt("role",1);
+//                    editor.apply();
+//
+//
+//                    Log.v("total reg",String.valueOf(etEmail.getText()));
+//                    Log.v("total reg",sharedPreferences.getString("email",""));
+//                }
+//                connect.close();
+//            }
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        }
+//    }
 }

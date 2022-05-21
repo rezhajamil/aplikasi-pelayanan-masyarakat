@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -17,13 +18,8 @@ import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthSession;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
-import com.amplifyframework.datastore.generated.model.Orders;
 import com.google.android.material.navigation.NavigationBarView;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,13 +28,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SharedPreferences sharedPreferences=getSharedPreferences("User",0);
+        String userEmail = sharedPreferences.getString("email","");
+
         replaceFragment(new HomeFragment());
         NavigationBarView bottom_nav=findViewById(R.id.bottom_navigation);
+
+        Log.v("role", String.valueOf(sharedPreferences.getInt("role",1)));
+        if (sharedPreferences.getInt("role",1)!=4){
+            bottom_nav.getMenu().removeItem(R.id.user);
+        }
 
         bottom_nav.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.home:
                     replaceFragment(new HomeFragment());
+                    break;
+                case R.id.user:
+                    replaceFragment(new UserFragment());
                     break;
                 case R.id.setting:
                     replaceFragment(new SettingFragment());
@@ -55,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             Amplify.addPlugin(new AWSApiPlugin());
-            Amplify.addPlugin(new AWSDataStorePlugin());
             // Add this line, to include the Auth plugin.
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.configure(getApplicationContext());
@@ -65,88 +71,11 @@ public class MainActivity extends AppCompatActivity {
             Log.e("Tutorial", "Could not initialize Amplify", failure);
         }
 
-        Amplify.DataStore.observe(Orders.class,
-                started -> Log.i("Tutorial", "Observation began."),
-                change -> Log.i("Tutorial", change.item().toString()),
-                failure -> Log.e("Tutorial", "Observation failed.", failure),
-                () -> Log.i("Tutorial", "Observation complete.")
-        );
+        if (userEmail.equals("")){
+            Log.v(" main",sharedPreferences.getString("email","sa"));
 
-//        Amplify.Auth.signInWithSocialWebUI(AuthProvider.google(), this,
-//                result -> {
-//                    Log.v("Hasil",result.toString());
-//                    if (result.isSignInComplete()){
-//                        Amplify.Auth.fetchUserAttributes(
-//                                attributes->{
-//                                    String email=attributes.get(3).getValue();
-//                                    if (!email.isEmpty()){
-//                                        int total=getUserData(email);
-//                                        if (total<=0){
-//                                            startActivity(new Intent(MainActivity.this,RegisterActivity.class));
-//                                            finish();
-//                                        }
-//                                    }else{
-//                                        startActivity(new Intent(MainActivity.this,LoginActivity.class));
-//                                        finish();
-//                                    }
-//                                    progress.dismiss();
-//                                },
-//                                error -> {
-//                                    Log.e("AuthDemo", "Failed to fetch user attributes.", error);
-//                                    progress.dismiss();
-//                                }
-//                        );
-//                    }else{
-//                        startActivity(new Intent(MainActivity.this,LoginActivity.class));
-//                        finish();
-//                    }
-//                },
-//                error -> {
-//                    Log.e("AuthQuickstart", error.toString());
-//                    progress.dismiss();
-//                }
-//        );
-
-//        Amplify.Auth.fetchAuthSession(
-//                result -> {
-//                    AWSCognitoAuthSession cognitoAuthSession = (AWSCognitoAuthSession) result;
-//                    switch(cognitoAuthSession.getIdentityId().getType()) {
-//                        case SUCCESS:
-//                            Amplify.Auth.fetchUserAttributes(
-//                                    attributes->{
-//                                    String email=attributes.get(3).getValue();
-//                                    if (!email.isEmpty()){
-//                                        int total=getUserData(email);
-//                                        if (total<=0){
-//                                            startActivity(new Intent(MainActivity.this,RegisterActivity.class));
-//                                            finish();
-//                                        }
-//                                    }else{
-//                                        startActivity(new Intent(MainActivity.this,LoginActivity.class));
-//                                        finish();
-//                                    }
-//                                    progress.dismiss();
-//                                },
-//                                    error -> Log.e("AuthDemo", "Failed to fetch user attributes.", error)
-//                            );
-//                            Log.i("Session", "IdentityId: " + cognitoAuthSession.toString());
-//                            break;
-//                        case FAILURE:
-//                            startActivity(new Intent(MainActivity.this,LoginActivity.class));
-//                            finish();
-//                            Log.i("Session", "IdentityId not present because: " + cognitoAuthSession.getIdentityId().getError().toString());
-//                    }
-//                },
-//                error -> Log.e("Session", error.toString())
-//        );
-
-        ConnectionHelper connectionHelper=new ConnectionHelper();
-        Connection connect =connectionHelper.connections();
-
-        if (connect!=null){
-            Toast.makeText(MainActivity.this,"Koneksi Berhasil",Toast.LENGTH_LONG).show();
-        }else{
-            Toast.makeText(MainActivity.this,"Koneksi Gagal",Toast.LENGTH_LONG).show();
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
         }
     }
 
@@ -158,29 +87,4 @@ public class MainActivity extends AppCompatActivity {
         ft.commit();
     }
 
-    private int getUserData(String email){
-        ResultSet rs=null;
-        int total=0;
-        try {
-            ConnectionHelper connectionHelper=new ConnectionHelper();
-            Connection connect =connectionHelper.connections();
-
-            if (connect==null){
-                String ConnectionResult="Check Your Internet Connection";
-                Log.d("conn",ConnectionResult);
-            }else{
-                String query="Select count(*) as total from users where email="+email;
-                Statement stmt=connect.createStatement();
-                rs=stmt.executeQuery(query);
-
-                while (rs.next()){
-                    total=rs.getInt("total");
-                }
-                connect.close();
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return total;
-    }
 }

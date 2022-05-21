@@ -25,13 +25,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AplikasiPelayananMasyarakat">
         <activity
-            android:name="com.dina.aplikasipelayananmasyarakat.LoginActivity"
+            android:name=".OrderFormActivity"
             android:exported="false" />
         <activity
-            android:name="com.dina.aplikasipelayananmasyarakat.RegisterActivity"
+            android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name="com.dina.aplikasipelayananmasyarakat.SplashScreenActivity"
+            android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,7 +43,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.dina.aplikasipelayananmasyarakat.MainActivity"
+            android:name=".MainActivity"
             android:exported="true" />
         <activity
             android:name="com.amplifyframework.auth.cognito.activities.HostedUIRedirectActivity"

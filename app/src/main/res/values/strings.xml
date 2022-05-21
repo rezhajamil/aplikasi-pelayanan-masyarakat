@@ -3,4 +3,17 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- TODO: Remove or change this placeholder text -->
+
+    <string-array name="purpose">
+        <item>Mengurus Izin Mendirikan Bangunan</item>
+        <item>Mengurus Surat Keterangan Tanah/SKGR Tanah</item>
+        <item>Mengurus Surat Keterangan Tidak Mampu</item>
+        <item>Mengurus Surat Rekomendasi Izin Hiburan</item>
+        <item>Mengurus Surat Keterangan Ahli Waris</item>
+        <item>Mengurus Surat Pindah</item>
+        <item>Mengurus Surat Kematian</item>
+        <item>Mengurus Surat Kelahiran</item>
+        <item>Mengurus Surat Dispensasi Nikah</item>
+        <item>Mengurus Surat Keterangan</item>
+    </string-array>
 </resources>
