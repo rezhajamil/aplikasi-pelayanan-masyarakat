@@ -1,6 +1,7 @@
 package com.dina.aplikasipelayananmasyarakat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +43,14 @@ public class HomeFragment extends Fragment {
         Animation rotateCloseAnimation = AnimationUtils.loadAnimation(getContext(),R.anim.rotate_close_animation);
         Animation fromBottomAnimation = AnimationUtils.loadAnimation(getContext(),R.anim.from_bottom_animation);
         Animation toBottomAnimation = AnimationUtils.loadAnimation(getContext(),R.anim.to_bottom_animation);
+
+        SharedPreferences sharedPreferences=getContext().getSharedPreferences("User",0);
+        String userEmail = sharedPreferences.getString("email","");
+
+        if (sharedPreferences.getInt("role",1)==4){
+            btnOrder1.setVisibility(View.GONE);
+            fab.setVisibility(View.GONE);
+        }
 
         btnOrder1.setOnClickListener(new View.OnClickListener() {
             @Override

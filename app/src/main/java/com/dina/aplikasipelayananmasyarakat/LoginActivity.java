@@ -28,12 +28,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         Button btnLogin=findViewById(R.id.btn_login);
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                login();
-            }
-        });
+        btnLogin.setOnClickListener(view -> login());
     }
 
     private void login(){
@@ -57,8 +52,8 @@ public class LoginActivity extends AppCompatActivity {
                                             finish();
                                         }else{
                                             saveUserData(email);
-                                            startActivity(new Intent(LoginActivity.this,MainActivity.class));
                                             Toast.makeText(LoginActivity.this,"Login Success",Toast.LENGTH_SHORT).show();
+                                            startActivity(new Intent(LoginActivity.this,MainActivity.class));
                                             finish();
                                         }
                                     }
@@ -108,6 +103,7 @@ public class LoginActivity extends AppCompatActivity {
         try {
             ConnectionHelper connectionHelper=new ConnectionHelper();
             Connection connect =connectionHelper.connections();
+            Log.v("teks", String.valueOf(connect));
 
             if (connect==null){
                 String ConnectionResult="Check Your Internet Connection";

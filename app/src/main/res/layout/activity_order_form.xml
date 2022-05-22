@@ -33,7 +33,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:paddingBottom="6dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -47,8 +47,9 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
                 android:text="Uraian Urusan"
-                android:textColor="@color/primaryTextColor"
+                android:textColor="@color/primaryDarkColor"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,11 +60,13 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:text="Akte Kelahiran"
-                android:textColor="@color/primaryTextColor"
+                android:textColor="@color/primaryDarkColor"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_kk" />
+                app:layout_constraintTop_toBottomOf="@+id/btn_kk"
+                tools:visibility="visible" />
 
             <Spinner
                 android:id="@+id/sp_purpose"
@@ -73,10 +76,10 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
                 android:layout_weight="1"
+                android:background="@color/primaryColor"
                 android:dropDownWidth="wrap_content"
                 android:entries="@array/purpose"
                 android:minHeight="48dp"
-                android:background="@color/primaryColor"
                 android:popupBackground="@color/primaryColor"
                 android:spinnerMode="dialog"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -85,13 +88,15 @@
 
             <Button
                 android:id="@+id/btn_ktp"
+                style="@style/Widget.MaterialComponents.Button.Icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
-                style="@style/Widget.MaterialComponents.Button.Icon"
                 android:text="Upload KTP"
+                android:textColor="@color/design_default_color_background"
                 app:icon="@drawable/ic_upload"
+                app:iconTint="@color/design_default_color_background"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sp_purpose" />
 
@@ -100,21 +105,26 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginStart="8dp"
-                android:visibility="gone"
+
+                android:backgroundTintMode="add"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@+id/btn_ktp"
                 app:layout_constraintStart_toEndOf="@+id/btn_ktp"
                 app:layout_constraintTop_toTopOf="@+id/btn_ktp"
-                app:srcCompat="@drawable/ic_done" />
+                app:srcCompat="@drawable/ic_done"
+                app:tint="@color/primaryDarkColor" />
 
             <Button
                 android:id="@+id/btn_kk"
+                style="@style/Widget.MaterialComponents.Button.Icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
-                style="@style/Widget.MaterialComponents.Button.Icon"
+                android:layout_marginTop="8dp"
                 android:text="Upload KK"
+                android:textColor="@color/design_default_color_background"
                 app:icon="@drawable/ic_upload"
+                app:iconTint="@color/design_default_color_background"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_ktp" />
 
@@ -123,11 +133,13 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginStart="8dp"
-                android:visibility="gone"
+                android:backgroundTint="@color/primaryDarkColor"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@+id/btn_kk"
                 app:layout_constraintStart_toEndOf="@+id/btn_kk"
                 app:layout_constraintTop_toTopOf="@+id/btn_kk"
-                app:srcCompat="@drawable/ic_done" />
+                app:srcCompat="@drawable/ic_done"
+                app:tint="@color/primaryDarkColor" />
 
             <Spinner
                 android:id="@+id/sp_akte"
@@ -139,10 +151,11 @@
                 android:background="@color/primaryColor"
                 android:minHeight="48dp"
                 android:spinnerMode="dialog"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                app:layout_constraintTop_toBottomOf="@+id/textView6"
+                tools:visibility="visible" />
 
             <!--            <com.google.android.material.textfield.TextInputLayout-->
             <!--                android:id="@+id/etlName"-->
@@ -170,21 +183,33 @@
 
             <!--            </com.google.android.material.textfield.TextInputLayout>-->
 
-                        <Button
-                            android:id="@+id/btnSubmitPermohonan"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="24dp"
-                            android:layout_marginBottom="16dp"
-                            android:text="Kirim Permohonan"
-                            android:textColor="@color/secondaryTextColor"
-                            android:backgroundTint="@color/primaryColor"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/sp_akte" />
+            <TextView
+                android:id="@+id/tv_akte_null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:text="Tidak Ada Akte Kelahiran Ditemukan"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="16sp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+            <Button
+                android:id="@+id/btnSubmitPermohonan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="24dp"
+                android:backgroundTint="@color/primaryColor"
+                android:text="Kirim Permohonan"
+                android:textColor="@color/design_default_color_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sp_akte" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
