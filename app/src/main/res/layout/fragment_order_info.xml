@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/logo_asahan_background"
+    android:orientation="vertical"
+    android:padding="8dp"
+    tools:context=".OrderInfoFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Perihal"
+        android:textColor="@color/primaryTextColor" />
+
+    <TextView
+        android:id="@+id/tv_purpose_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="Mengurus Surat Nikah"
+        android:textColor="@color/primaryDarkColor"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Nama"
+        android:textColor="@color/primaryTextColor" />
+
+    <TextView
+        android:id="@+id/tv_nama_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="Rezha"
+        android:textColor="@color/primaryDarkColor"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="NIK"
+        android:textColor="@color/primaryTextColor" />
+
+    <TextView
+        android:id="@+id/tv_nik_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="1219031707010006"
+        android:textColor="@color/primaryDarkColor"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Tempat/Tanggal Lahir"
+        android:textColor="@color/primaryTextColor" />
+
+    <TextView
+        android:id="@+id/tv_birth_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="Tebing Tinggi/17-07-2001"
+        android:textColor="@color/primaryDarkColor"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Alamat Domisili"
+        android:textColor="@color/primaryTextColor" />
+
+    <TextView
+        android:id="@+id/tv_address_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="Medan"
+        android:textColor="@color/primaryDarkColor"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Pekerjaan"
+        android:textColor="@color/primaryTextColor" />
+
+    <TextView
+        android:id="@+id/tv_occupation_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="Programmer"
+        android:textColor="@color/primaryDarkColor"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

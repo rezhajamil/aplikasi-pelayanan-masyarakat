@@ -5,19 +5,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
-import com.amplifyframework.auth.cognito.AWSCognitoAuthSession;
 import com.amplifyframework.core.Amplify;
-import com.amplifyframework.datastore.AWSDataStorePlugin;
 import com.google.android.material.navigation.NavigationBarView;
 
 
@@ -30,11 +26,13 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences=getSharedPreferences("User",0);
         String userEmail = sharedPreferences.getString("email","");
+        int userRole = sharedPreferences.getInt("role",1);
 
-        replaceFragment(new HomeFragment());
+        replaceFragment(new OrderFragment());
         NavigationBarView bottom_nav=findViewById(R.id.bottom_navigation);
 
-        Log.v("role", String.valueOf(sharedPreferences.getInt("role",1)));
+        Log.v("userEmail", String.valueOf(userEmail));
+        Log.v("userRole", String.valueOf(userRole));
         if (sharedPreferences.getInt("role",1)!=4){
             bottom_nav.getMenu().removeItem(R.id.user);
         }
@@ -42,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         bottom_nav.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
                 case R.id.home:
-                    replaceFragment(new HomeFragment());
+                    replaceFragment(new OrderFragment());
                     break;
                 case R.id.user:
                     replaceFragment(new UserFragment());
@@ -60,16 +58,7 @@ public class MainActivity extends AppCompatActivity {
 //        progress.setCancelable(false);
 //        progress.show();
 
-        try {
-            Amplify.addPlugin(new AWSApiPlugin());
-//             Add this line, to include the Auth plugin.
-            Amplify.addPlugin(new AWSCognitoAuthPlugin());
-            Amplify.configure(getApplicationContext());
-            Log.i("Tutorial", "Initialized Amplify");
 
-        } catch (AmplifyException failure) {
-            Log.e("Tutorial", "Could not initialize Amplify", failure);
-        }
 
         if (userEmail.equals("")){
             Log.v(" main",sharedPreferences.getString("email","sa"));

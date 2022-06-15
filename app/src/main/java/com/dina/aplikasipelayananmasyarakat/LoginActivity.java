@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.auth.AuthProvider;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
 import com.amplifyframework.core.Amplify;
@@ -27,6 +29,17 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Button btnLogin=findViewById(R.id.btn_login);
+
+//        try {
+//            Amplify.addPlugin(new AWSApiPlugin());
+////             Add this line, to include the Auth plugin.
+//            Amplify.addPlugin(new AWSCognitoAuthPlugin());
+//            Amplify.configure(getApplicationContext());
+//            Log.i("Tutorial", "Initialized Amplify");
+//
+//        } catch (AmplifyException failure) {
+//            Log.e("Tutorial", "Could not initialize Amplify", failure);
+//        }
 
         btnLogin.setOnClickListener(view -> login());
     }
@@ -52,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                                             finish();
                                         }else{
                                             saveUserData(email);
-                                            Toast.makeText(LoginActivity.this,"Login Success",Toast.LENGTH_SHORT).show();
+//                                            Toast.makeText(getApplicationContext(),"Login Success",Toast.LENGTH_SHORT).show();
                                             startActivity(new Intent(LoginActivity.this,MainActivity.class));
                                             finish();
                                         }

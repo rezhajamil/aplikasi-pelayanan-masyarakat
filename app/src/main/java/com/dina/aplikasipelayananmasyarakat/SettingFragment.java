@@ -11,9 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.amplifyframework.auth.options.AuthSignOutOptions;
 import com.amplifyframework.core.Amplify;
+import com.google.android.material.divider.MaterialDivider;
 
 public class SettingFragment extends Fragment {
 
@@ -27,32 +30,59 @@ public class SettingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_setting, container, false);
+        SharedPreferences sharedPreferences=getContext().getSharedPreferences("User",0);
+        int role=sharedPreferences.getInt("role",1);
 
-        Button btnLogout=(Button) view.findViewById(R.id.btn_logout);
+        LinearLayout editProfile,akte,logout;
+        View divider;
 
-        btnLogout.setOnClickListener(new View.OnClickListener() {
+        editProfile=view.findViewById(R.id.ll_edit_profile);
+        akte=view.findViewById(R.id.ll_akte);
+        logout=view.findViewById(R.id.ll_logout);
+        divider=view.findViewById(R.id.divider7);
+
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(),EditProfileActivity.class));
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 logout();
             }
         });
 
+        akte.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(),AkteActivity.class));
+            }
+        });
+
+        if (role>1){
+            akte.setVisibility(View.GONE);
+            divider.setVisibility(View.GONE);
+        }
+
         return view;
     }
 
     private void logout(){
         Amplify.Auth.signOut(
-                () -> Log.i("AuthQuickstart", "Signed out successfully"),
+                () -> {
+                    SharedPreferences sharedPreferences= getContext().getSharedPreferences("User", 0);
+                    SharedPreferences.Editor editor=sharedPreferences.edit();
+                    editor.clear().commit();
+
+//                    Toast.makeText(getContext(),"Logout Success",Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getContext(),LoginActivity.class));
+                    getActivity().finish();
+                    },
                 error -> Log.e("AuthQuickstart", error.toString())
         );
 
-        SharedPreferences sharedPreferences= getContext().getSharedPreferences("User", 0);
-        SharedPreferences.Editor editor=sharedPreferences.edit();
-        editor.clear().commit();
-
-        startActivity(new Intent(getContext(),LoginActivity.class));
-        getActivity().finish();
-
-        Toast.makeText(getContext(),"Logout Success",Toast.LENGTH_LONG).show();
     }
 }

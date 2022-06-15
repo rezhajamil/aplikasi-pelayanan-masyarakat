@@ -22,7 +22,7 @@ import java.sql.Statement;
 public class RegisterActivity extends AppCompatActivity {
 
     EditText etName,etEmail,etPhone,etNik,etAddress,etBirthDate,etBirthPlace,etOccupation;
-    Button btnSubmit;
+    Button btnSubmit,btnLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
         etBirthPlace=findViewById(R.id.etBirthPlace);
         etOccupation=findViewById(R.id.etOccupation);
         btnSubmit=findViewById(R.id.btnSubmit);
+        btnLogout=findViewById(R.id.btnLogout);
 
         MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker().setTitleText("Pilih Tanggal").build();
 
@@ -67,6 +68,13 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 addUser();
+            }
+        });
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
             }
         });
 
@@ -154,43 +162,19 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-//    public void saveUserData(String email){
-//        ResultSet rs=null;
-//        try {
-//            ConnectionHelper connectionHelper=new ConnectionHelper();
-//            Connection connect =connectionHelper.connections();
-//
-//            if (connect==null){
-//                String ConnectionResult="Check Your Internet Connection";
-//            }else{
-//                String query="Select *from users where email="+email;
-//                Statement stmt=connect.createStatement();
-//                rs=stmt.executeQuery(query);
-//
-//                SharedPreferences sharedPreferences=getSharedPreferences("User",0);
-//                SharedPreferences.Editor editor=sharedPreferences.edit();
-//
-//                while (rs.next()){
-//                    editor.putString("email", String.valueOf(etEmail.getText()));
-//                    editor.putString("phone", String.valueOf(etPhone.getText()));
-//                    editor.putString("nik", String.valueOf(etNik.getText()));
-//                    editor.putString("name", String.valueOf(etName.getText()));
-//                    editor.putString("address", String.valueOf(etAddress.getText()));
-//                    editor.putString("birthDate", String.valueOf(etBirthDate.getText()));
-//                    editor.putString("birthPlace", String.valueOf(etBirthPlace.getText()));
-//                    editor.putString("avatar",null);
-//                    editor.putString("occupation", String.valueOf(etOccupation.getText()));
-//                    editor.putInt("role",1);
-//                    editor.apply();
-//
-//
-//                    Log.v("total reg",String.valueOf(etEmail.getText()));
-//                    Log.v("total reg",sharedPreferences.getString("email",""));
-//                }
-//                connect.close();
-//            }
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//        }
-//    }
+    private void logout(){
+        Amplify.Auth.signOut(
+                () -> {
+                    SharedPreferences sharedPreferences= getSharedPreferences("User", 0);
+                    SharedPreferences.Editor editor=sharedPreferences.edit();
+                    editor.clear().commit();
+
+//                    Toast.makeText(getContext(),"Logout Success",Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(RegisterActivity.this,LoginActivity.class));
+                    finish();
+                },
+                error -> Log.e("AuthQuickstart", error.toString())
+        );
+
+    }
 }

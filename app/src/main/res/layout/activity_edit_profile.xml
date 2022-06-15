@@ -5,16 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/logo_asahan_background"
-    tools:context=".RegisterActivity">
+    tools:context=".EditProfileActivity">
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="REGISTER"
+        android:text="Edit Profile
+"
         android:textColor="@color/primaryTextColor"
-        android:textSize="34sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +56,7 @@
                 app:placeholderTextColor="@color/primaryColor">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etName"
+                    android:id="@+id/etNameEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textCapWords"
@@ -80,7 +81,7 @@
                 app:placeholderTextColor="@color/primaryColor">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etEmail"
+                    android:id="@+id/etEmailEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Your Email"
@@ -107,7 +108,7 @@
                 app:placeholderTextColor="@color/primaryColor">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etPhone"
+                    android:id="@+id/etPhoneEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -132,7 +133,7 @@
                 app:placeholderTextColor="@color/primaryColor">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etNik"
+                    android:id="@+id/etNikEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -157,7 +158,7 @@
                 app:placeholderTextColor="@color/primaryColor">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etAddress"
+                    android:id="@+id/etAddressEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textCapSentences"
@@ -182,7 +183,7 @@
                 app:placeholderTextColor="@color/primaryColor">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etBirthDate"
+                    android:id="@+id/etBirthDateEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none"
@@ -211,7 +212,7 @@
                 app:placeholderTextColor="@color/primaryColor">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etBirthPlace"
+                    android:id="@+id/etBirthPlaceEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textCapWords"
@@ -236,7 +237,7 @@
                 app:placeholderTextColor="@color/primaryColor">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etOccupation"
+                    android:id="@+id/etOccupationEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textCapWords"
@@ -244,33 +245,17 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/btnSubmit"
+                android:id="@+id/btnSubmitEdit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
-                android:text="Register"
+                android:text="Simpan Perubahan"
                 android:textColor="@color/design_default_color_background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etlOccupation" />
-
-            <Button
-                android:id="@+id/btnLogout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginBottom="16dp"
-                android:backgroundTint="@color/design_default_color_error"
-                android:text="Logout"
-                android:textColor="@color/logo_asahan_background"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnSubmit" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

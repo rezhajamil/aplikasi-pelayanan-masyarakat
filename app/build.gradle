@@ -48,9 +48,13 @@ dependencies {
     // Amplify plugins
     implementation 'com.amplifyframework:core:1.35.1'
     implementation 'com.amplifyframework:aws-api:1.35.1'
-    implementation 'com.amplifyframework:aws-datastore:1.35.1'
     implementation 'com.amplifyframework:aws-auth-cognito:1.35.1'
 
     // Support for Java 8 features
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+
+    //    Glide
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    implementation 'com.squareup.picasso:picasso:2.8'
 }

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".OrderDetailActivity">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/primaryColor"
+        android:paddingBottom="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabGravity="center"
+        app:tabIndicatorColor="@color/logo_asahan_background"
+        app:tabMode="scrollable"
+        app:tabTextColor="@color/logo_asahan_background">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Info" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_berkas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Berkas" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_akte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Akte"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container_order_detail"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/layout_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_btn"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/bg_white_layout_btn"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible">
+
+        <Button
+            android:id="@+id/btn_approve"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="Setujui"
+            android:textColor="@color/logo_asahan_background"
+            android:textSize="16sp"
+            app:icon="@drawable/ic_done"
+            app:iconPadding="2dp"
+            app:iconTint="@color/logo_asahan_background" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="1dp"
+            android:layout_height="50dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btn_decline"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/design_default_color_error"
+            android:text="Tolak"
+            android:textColor="@color/logo_asahan_background"
+            android:textSize="16sp"
+            app:icon="@drawable/ic_close"
+            app:iconTint="@color/logo_asahan_background" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

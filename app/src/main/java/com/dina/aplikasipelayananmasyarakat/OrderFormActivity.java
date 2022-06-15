@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -40,7 +41,7 @@ public class OrderFormActivity extends AppCompatActivity {
     Spinner spPurpose,spAkte;
     TextView tvAkte,tvAkteNull;
     Button btnKtp,btnKk,btnSubmit;
-    String fileKtpName,fileKkName,akteName;
+    String fileKtpName,fileKkName,akteName,userEmail,ktpPath,kkPath;
     int selectedSpinner;
 
     @Override
@@ -49,7 +50,7 @@ public class OrderFormActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_form);
 
         SharedPreferences sharedPreferences=getSharedPreferences("User",0);
-        String userEmail=sharedPreferences.getString("email","");
+        userEmail=sharedPreferences.getString("email","");
         ResultSet rs=null;
 
         spPurpose= findViewById(R.id.sp_purpose);
@@ -63,7 +64,8 @@ public class OrderFormActivity extends AppCompatActivity {
         ivKk= findViewById(R.id.iv_kk_done);
 
         ArrayList<String> listAkte=new ArrayList<String>();
-        ArrayAdapter<String> adapterAkte=new ArrayAdapter<String>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapterAkte=new ArrayAdapter<String>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,listAkte);
+        adapterAkte.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
 
         try {
             ConnectionHelper connectionHelper=new ConnectionHelper();
@@ -74,12 +76,12 @@ public class OrderFormActivity extends AppCompatActivity {
                 String ConnectionResult="Check Your Internet Connection";
                 Toast.makeText(OrderFormActivity.this,ConnectionResult,Toast.LENGTH_SHORT);
             }else{
-                String query="Select name from akte where user_email='"+userEmail+"'";
+                String query="Select nama_bayi from akte where user_email='"+userEmail+"'";
                 Statement stmt=connect.createStatement();
                 rs=stmt.executeQuery(query);
 
                 while (rs.next()){
-                    listAkte.add(rs.getString("name"));
+                    listAkte.add(rs.getString("nama_bayi"));
                 }
 
                 spAkte.setAdapter(adapterAkte);
@@ -89,6 +91,7 @@ public class OrderFormActivity extends AppCompatActivity {
             throwables.printStackTrace();
         }
 
+        Log.v("gagal4", String.valueOf(listAkte));
 
         spPurpose.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -113,6 +116,18 @@ public class OrderFormActivity extends AppCompatActivity {
             }
         });
 
+        spAkte.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                akteName=spAkte.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         btnKtp.setOnClickListener(view -> selectKtp());
 
         btnKk.setOnClickListener(view -> selectKk());
@@ -129,10 +144,13 @@ public class OrderFormActivity extends AppCompatActivity {
                         Toast.makeText(OrderFormActivity.this,ConnectionResult,Toast.LENGTH_LONG).show();
                     }else{
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
+                        SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault());
                         Date now = new Date();
-                        String id = formatter.format(now);
+                        String id = userEmail+"_"+formatter.format(now);
 
-                        String query=String.format("Insert into orders values ('%s','%s','%s','%s','%s','%s',null,'%s')",id,userEmail,spPurpose.getSelectedItem().toString(),fileKtpName,fileKkName,"Menunggu Kepala Dusun",akteName);
+                        String query=String.format("Insert into orders values ('%s','%s','%s','%s','%s','%s',null,'%s',TO_DATE('%s', 'yyyy/mm/dd hh24:mi:ss'))",id,userEmail,spPurpose.getSelectedItem().toString(),fileKtpName,fileKkName,"Menunggu Kepala Dusun",akteName,formatter2.format(now));
+
+                        Log.e("gagal", query);
                         Statement stmt=connect.createStatement();
                         stmt.executeUpdate(query);
 
@@ -151,27 +169,45 @@ public class OrderFormActivity extends AppCompatActivity {
 
     private void selectKtp() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*");
+        intent.setType("image/*");
         startActivityForResult(intent,11);
     }
 
     private void selectKk() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("*/*");
+        intent.setType("image/*");
         startActivityForResult(intent,12);
     }
 
     private void uploadFile() {
         StorageReference storageReferenceKtp = FirebaseStorage.getInstance().getReference("ktp/"+fileKtpName);
-        StorageReference storageReferenceKk = FirebaseStorage.getInstance().getReference("kk/"+fileKtpName);
+        StorageReference storageReferenceKk = FirebaseStorage.getInstance().getReference("kk/"+fileKkName);
+
+        ProgressDialog progress = new ProgressDialog(this);
+        progress.setTitle("Loading");
+        progress.setMessage("Sedang Upload File...");
+        progress.setCancelable(false);
+        progress.show();
 
         storageReferenceKtp.putFile(KtpUri)
-            .addOnSuccessListener(taskSnapshot -> Toast.makeText(OrderFormActivity.this,"Berhasil Upload File",Toast.LENGTH_LONG).show())
-            .addOnFailureListener(e -> Toast.makeText(OrderFormActivity.this,"Gagal Upload File",Toast.LENGTH_LONG).show());
+            .addOnSuccessListener(taskSnapshot -> {
+                Toast.makeText(OrderFormActivity.this, "Berhasil Upload File", Toast.LENGTH_LONG).show();
+                progress.dismiss();
+            })
+            .addOnFailureListener(e -> {
+                Toast.makeText(OrderFormActivity.this, "Gagal Upload File", Toast.LENGTH_LONG).show();
+                progress.dismiss();
+            });
 
         storageReferenceKk.putFile(KkUri)
-            .addOnSuccessListener(taskSnapshot -> Toast.makeText(OrderFormActivity.this,"Berhasil Upload File",Toast.LENGTH_LONG).show())
-            .addOnFailureListener(e -> Toast.makeText(OrderFormActivity.this,"Gagal Upload File",Toast.LENGTH_LONG).show());
+            .addOnSuccessListener(taskSnapshot -> {
+                Toast.makeText(OrderFormActivity.this, "Berhasil Upload File", Toast.LENGTH_LONG).show();
+                progress.dismiss();
+            })
+            .addOnFailureListener(e -> {
+                Toast.makeText(OrderFormActivity.this, "Gagal Upload File", Toast.LENGTH_LONG).show();
+                progress.dismiss();
+            });
     }
 
     private boolean validateInput(){
@@ -190,7 +226,7 @@ public class OrderFormActivity extends AppCompatActivity {
             return false;
         }
 
-        if (selectedSpinner==7&&spAkte.getSelectedItem().toString().equals("")){
+        if (selectedSpinner==7&&akteName==null){
             Toast.makeText(OrderFormActivity.this,"Pilih Akte Kelahiran",Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -208,7 +244,7 @@ public class OrderFormActivity extends AppCompatActivity {
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault());
             Date now = new Date();
-            fileKtpName = formatter.format(now);
+            fileKtpName = userEmail+"_"+formatter.format(now);
 
             Toast.makeText(OrderFormActivity.this,"KTP Telah Dipilih",Toast.LENGTH_SHORT).show();
             ivKtp.setVisibility(View.VISIBLE);
@@ -218,7 +254,7 @@ public class OrderFormActivity extends AppCompatActivity {
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault());
             Date now = new Date();
-            fileKkName = formatter.format(now);
+            fileKkName = userEmail+"_"+formatter.format(now);
 
             Toast.makeText(OrderFormActivity.this,"KK Telah Dipilih",Toast.LENGTH_SHORT).show();
             ivKk.setVisibility(View.VISIBLE);
