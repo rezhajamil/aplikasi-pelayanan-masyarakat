@@ -45,7 +45,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvPurpose,tvName,tvDate,tvStatus;
+        TextView tvPurpose,tvName,tvDate,tvStatus,tvDesc;
         MaterialCardView card;
         Button btnDetail,btnDelete;
 
@@ -54,6 +54,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
             tvPurpose=itemView.findViewById(R.id.tv_purpose);
             tvName=itemView.findViewById(R.id.tv_name);
             tvDate=itemView.findViewById(R.id.tv_date);
+            tvDesc=itemView.findViewById(R.id.tv_description);
             tvStatus=itemView.findViewById(R.id.tv_status);
             btnDetail=itemView.findViewById(R.id.btn_detail);
             btnDelete=itemView.findViewById(R.id.btn_delete);
@@ -110,6 +111,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
         holder.tvPurpose.setText(data.get(position).getPurpose());
         holder.tvDate.setText(date);
         holder.tvStatus.setText(data.get(position).getStatus());
+        if (data.get(position).getDescription()!=null){
+            holder.tvDesc.setVisibility(View.VISIBLE);
+            holder.tvDesc.setText(data.get(position).getDescription());
+        }
         String arr[]=data.get(position).getStatus().split(" ",2);
         if (arr[0]=="Ditolak"){
             holder.tvStatus.setTextColor(Color.parseColor("#b00020"));

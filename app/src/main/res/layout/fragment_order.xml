@@ -9,6 +9,31 @@
     android:background="@color/primaryColor"
     tools:context=".OrderFragment" >
 
+    <ImageView
+        android:id="@+id/iv_home"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_home"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/black" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/btn_add_report"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:src="@drawable/ic_report"
+        android:text="Buat Pengaduan"
+        android:visibility="invisible"
+        app:icon="@drawable/ic_report"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add_order2"
+        app:layout_constraintEnd_toEndOf="@+id/floatingActionButton"
+        tools:visibility="visible" />
+
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/btn_add_order2"
         android:layout_width="wrap_content"
@@ -20,21 +45,23 @@
         android:visibility="invisible"
         app:icon="@drawable/ic_description"
         app:layout_constraintBottom_toTopOf="@+id/floatingActionButton"
-        app:layout_constraintEnd_toEndOf="@+id/floatingActionButton" />
+        app:layout_constraintEnd_toEndOf="@+id/floatingActionButton"
+        tools:visibility="visible" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/btn_add_akte"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:gravity="bottom|end"
         android:clickable="true"
-        android:visibility="invisible"
+        android:gravity="bottom|end"
         android:src="@drawable/ic_description"
         android:text="Akte Kelahiran"
+        android:visibility="invisible"
         app:icon="@drawable/ic_face"
-        app:layout_constraintBottom_toTopOf="@+id/btn_add_order2"
-        app:layout_constraintEnd_toEndOf="@+id/btn_add_order2" />
+        app:layout_constraintBottom_toTopOf="@+id/btn_add_report"
+        app:layout_constraintEnd_toEndOf="@+id/btn_add_order2"
+        tools:visibility="visible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -55,22 +82,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:fontFamily="@font/poppins_semibold"
+        android:gravity="center_horizontal|center_vertical"
         android:text="Daftar Permohonan"
         android:textColor="@color/primaryTextColor"
         android:textSize="16sp"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_home"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_home"
         tools:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_order"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -87,7 +115,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="1.0">
 
         <TextView
             android:id="@+id/tv_null"

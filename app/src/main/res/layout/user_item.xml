@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card"
+        android:id="@+id/card_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -32,50 +32,40 @@
 
                 <!-- Title, secondary and supporting text -->
                 <TextView
-                    android:id="@+id/tv_purpose"
+                    android:id="@+id/tv_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Permohonan"
+                    android:text="yamatogija@gmail.com"
                     android:textAppearance="?attr/textAppearanceHeadline6"
                     android:textColor="@color/primaryTextColor" />
 
                 <TextView
-                    android:id="@+id/tv_name"
+                    android:id="@+id/tv_name_user"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:text="Nama"
+                    android:text="Rezha"
                     android:textAppearance="?attr/textAppearanceBody2"
                     android:textColor="@color/secondaryTextColor" />
 
                 <TextView
-                    android:id="@+id/tv_date"
+                    android:id="@+id/tv_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="10-01-2023 19:00"
+                    android:text="081234567890"
                     android:textAppearance="?attr/textAppearanceBody2"
                     android:textColor="?android:attr/textColorSecondary" />
 
                 <TextView
-                    android:id="@+id/tv_status"
+                    android:id="@+id/tv_role"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="Menunggu Kepala Dusun"
+                    android:text="Masyarakat"
                     android:textColor="@color/logo_asahan_background"
                     android:textSize="16sp"
                     android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="blabalbal"
-                    android:textColor="@color/logo_asahan_background"
-                    android:textSize="16sp"
-                    android:visibility="gone"/>
 
             </LinearLayout>
 
@@ -89,20 +79,13 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_detail"
+                    android:id="@+id/btn_change_role"
                     style="?attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:text="Detail" />
+                    android:layout_marginStart="8dp"
+                    android:text="Ganti Role" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_delete"
-                    style="?attr/borderlessButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Hapus"
-                    android:textColor="@color/design_default_color_error" />
             </LinearLayout>
 
         </LinearLayout>

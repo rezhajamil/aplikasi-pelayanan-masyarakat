@@ -184,7 +184,7 @@ public class AkteFormActivity extends AppCompatActivity {
 
 
                         Toast.makeText(AkteFormActivity.this,"Berhasil Buat Surat Keterangan Kelahiran",Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(AkteFormActivity.this,MainActivity.class));
+                        startActivity(new Intent(AkteFormActivity.this,AkteActivity.class));
                         finish();
                         connect.close();
                     }

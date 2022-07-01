@@ -33,13 +33,15 @@ public class SettingFragment extends Fragment {
         SharedPreferences sharedPreferences=getContext().getSharedPreferences("User",0);
         int role=sharedPreferences.getInt("role",1);
 
-        LinearLayout editProfile,akte,logout;
-        View divider;
+        LinearLayout editProfile,akte,logout,report;
+        View divider,divider2;
 
         editProfile=view.findViewById(R.id.ll_edit_profile);
         akte=view.findViewById(R.id.ll_akte);
         logout=view.findViewById(R.id.ll_logout);
-        divider=view.findViewById(R.id.divider7);
+        report=view.findViewById(R.id.ll_report);
+        divider2=view.findViewById(R.id.divider7);
+        divider=view.findViewById(R.id.divider16);
 
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,9 +64,23 @@ public class SettingFragment extends Fragment {
             }
         });
 
-        if (role>1){
+        report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(),ReportActivity.class));
+            }
+        });
+
+        if (role>1 && role<4){
             akte.setVisibility(View.GONE);
+            report.setVisibility(View.VISIBLE);
             divider.setVisibility(View.GONE);
+            divider2.setVisibility(View.VISIBLE);
+        }else{
+            akte.setVisibility(View.VISIBLE);
+            report.setVisibility(View.GONE);
+            divider.setVisibility(View.VISIBLE);
+            divider2.setVisibility(View.GONE);
         }
 
         return view;

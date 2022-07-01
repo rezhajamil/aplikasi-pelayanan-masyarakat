@@ -26,6 +26,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AplikasiPelayananMasyarakat">
         <activity
+            android:name=".MenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ReportActivity"
+            android:exported="false" />
+        <activity
             android:name=".AkteActivity"
             android:exported="false" />
         <activity

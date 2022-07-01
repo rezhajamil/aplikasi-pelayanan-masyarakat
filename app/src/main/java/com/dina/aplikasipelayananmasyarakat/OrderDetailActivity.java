@@ -36,7 +36,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     ArrayList<Order> order;
     ArrayList<String> user;
     ArrayList akte;
-    String status,desc;
+    String status,desc,body;
     int pos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,8 +213,10 @@ public class OrderDetailActivity extends AppCompatActivity {
                             desc=etDecline.getText().toString();
                             if (role==2){
                                 status="Ditolak oleh Kepala Dusun";
+                                body="Permohonan Untuk "+order.get(pos).getPurpose()+" Anda Ditolak Oleh Kepala Dusun Dengan Alasan : "+desc.toUpperCase();
                             }else{
                                 status="Ditolak oleh Kepala Desa";
+                                body="Permohonan Untuk "+order.get(pos).getPurpose()+" Anda Ditolak Oleh Kepala Desa Dengan Alasan : "+desc.toUpperCase();
                             }
 
                             try {
@@ -237,6 +239,15 @@ public class OrderDetailActivity extends AppCompatActivity {
                             } catch (Exception e) {
                                 Log.e("gagals", String.valueOf(e));
                                 e.printStackTrace();
+                            }
+                            try {
+                                GMailSender sender = new GMailSender("apl.mandoge@gmail.com", "rsrmsemgfazzequf");
+                                sender.sendMail("Perubahan Status Permohonan",
+                                        body,
+                                        "apl.mandoge@gmail.com",
+                                        order.get(pos).getUser_email());
+                            } catch (Exception e) {
+                                Log.e("SendMail", e.getMessage(), e);
                             }
                         }
                     }).setNeutralButton("Batal", new DialogInterface.OnClickListener() {
@@ -263,8 +274,10 @@ public class OrderDetailActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 if (role==2){
                                     status="Disetujui oleh Kepala Dusun";
+                                    body="Permohonan Untuk "+order.get(pos).getPurpose()+" Anda Sudah Disetujui Oleh Kepala Dusun";
                                 }else{
                                     status="Disetujui oleh Kepala Desa";
+                                    body="Permohonan Untuk "+order.get(pos).getPurpose()+" Anda Sudah Disetujui Oleh Kepala Desa\nSegera ambil ke kantor kepala desa";
                                 }
 
                                 try {
@@ -288,9 +301,20 @@ public class OrderDetailActivity extends AppCompatActivity {
                                     Log.e("gagals", String.valueOf(e));
                                     e.printStackTrace();
                                 }
+
+                                try {
+                                    GMailSender sender = new GMailSender("apl.mandoge@gmail.com", "rsrmsemgfazzequf");
+                                    sender.sendMail("Perubahan Status Permohonan",
+                                            body,
+                                            "apl.mandoge@gmail.com",
+                                            order.get(pos).getUser_email());
+                                } catch (Exception e) {
+                                    Log.e("SendMail", e.getMessage(), e);
+                                }
                             }
                         });
                 alertApprove.show();
+
             }
         });
 

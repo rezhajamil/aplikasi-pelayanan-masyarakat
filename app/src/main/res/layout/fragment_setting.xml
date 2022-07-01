@@ -101,6 +101,48 @@
     </LinearLayout>
 
     <View
+        android:id="@+id/divider16"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_weight="1"
+        android:background="@color/grey" />
+
+    <LinearLayout
+        android:id="@+id/ll_report"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:clipToPadding="false"
+        android:minHeight="48dp"
+        android:orientation="horizontal"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp">
+
+        <ImageView
+            android:id="@+id/imageView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="6dp"
+            android:src="@drawable/ic_report"
+            app:tint="@color/design_default_color_error" />
+
+        <TextView
+            android:id="@+id/textView33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="5"
+            android:fontFamily="@font/poppins"
+            android:foregroundGravity="center_vertical"
+            android:gravity="center_vertical"
+            android:text="Pengaduan Masyarakat"
+            android:textColor="@color/design_default_color_error"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <View
         android:id="@+id/divider7"
         android:layout_width="match_parent"
         android:layout_height="1dp"

@@ -152,7 +152,7 @@ public class RegisterActivity extends AppCompatActivity {
                     editor.apply();
 
                     Toast.makeText(RegisterActivity.this,"Berhasil Register",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(RegisterActivity.this,MainActivity.class));
+                    startActivity(new Intent(RegisterActivity.this,MenuActivity.class));
                     finish();
                     connect.close();
                 }

@@ -75,13 +75,13 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
-        Amplify.Auth.fetchUserAttributes(
-                attributes->{
-                    String email=attributes.get(3).getValue();
-                    etEmailEdit.setText(email);
-                },
-                error -> Log.v("Error","Failed to Fetch Email")
-        );
+//        Amplify.Auth.fetchUserAttributes(
+//                attributes->{
+//                    String email=attributes.get(3).getValue();
+//                    etEmailEdit.setText(email);
+//                },
+//                error -> Log.v("Error","Failed to Fetch Email")
+//        );
 
         btnSubmitEdit.setOnClickListener(view -> editUser());
     }

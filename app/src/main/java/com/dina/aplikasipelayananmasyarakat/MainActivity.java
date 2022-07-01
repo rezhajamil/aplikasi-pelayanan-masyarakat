@@ -19,6 +19,7 @@ import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
 
+    String fragmentExtra="permohonan";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,8 +29,20 @@ public class MainActivity extends AppCompatActivity {
         String userEmail = sharedPreferences.getString("email","");
         int userRole = sharedPreferences.getInt("role",1);
 
-        replaceFragment(new OrderFragment());
+        Intent intent=getIntent();
+        if (intent.hasExtra("fragment")){
+            fragmentExtra=intent.getStringExtra("fragment");
+        }
+
         NavigationBarView bottom_nav=findViewById(R.id.bottom_navigation);
+
+        if (fragmentExtra.equals("setting")){
+            replaceFragment(new SettingFragment());
+            bottom_nav.setSelectedItemId(R.id.setting);
+        }else{
+            replaceFragment(new OrderFragment());
+        }
+
 
         Log.v("userEmail", String.valueOf(userEmail));
         Log.v("userRole", String.valueOf(userRole));

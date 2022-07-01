@@ -66,7 +66,14 @@ public class LoginActivity extends AppCompatActivity {
                                         }else{
                                             saveUserData(email);
 //                                            Toast.makeText(getApplicationContext(),"Login Success",Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+
+                                            SharedPreferences sharedPreferences=getSharedPreferences("User",0);
+                                            int role=sharedPreferences.getInt("role",1);
+                                            if (role>1){
+                                                startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                                            }else{
+                                                startActivity(new Intent(LoginActivity.this,MenuActivity.class));
+                                            }
                                             finish();
                                         }
                                     }

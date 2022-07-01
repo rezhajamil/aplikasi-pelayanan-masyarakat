@@ -1,6 +1,8 @@
 package com.dina.aplikasipelayananmasyarakat;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +13,8 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,8 +28,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,7 +41,7 @@ import java.util.Date;
 public class OrderFragment extends Fragment {
 
     Boolean isFABOpen=false;
-    String query;
+    String query,desc;
     ArrayList<Order> listOrder=new ArrayList<>();
     OrderAdapter adapter;
 
@@ -53,9 +59,11 @@ public class OrderFragment extends Fragment {
         Button btnOrder1 = view.findViewById(R.id.btn_add_order1);
         ExtendedFloatingActionButton btnOrder2 = view.findViewById(R.id.btn_add_order2);
         ExtendedFloatingActionButton btnAkte = view.findViewById(R.id.btn_add_akte);
+        ExtendedFloatingActionButton btnReport = view.findViewById(R.id.btn_add_report);
         RecyclerView rvOrder=view.findViewById(R.id.rv_order);
         TextView tvOrderTitle=view.findViewById(R.id.tv_order_title);
         TextView tvNull=view.findViewById(R.id.tv_null);
+        ImageView ivHome=view.findViewById(R.id.iv_home);
 
 
         Animation rotateOpenAnimation = AnimationUtils.loadAnimation(getContext(),R.anim.rotate_open_animation);
@@ -96,6 +104,63 @@ public class OrderFragment extends Fragment {
             }
         });
 
+        ivHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(),MenuActivity.class));
+                getActivity().finish();
+            }
+        });
+
+        btnReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View viewDecline=inflater.inflate(R.layout.dialog_report,null);
+                AlertDialog.Builder alertReport=new AlertDialog.Builder(getContext(),R.style.MaterialDialogReport).setTitle("Buat Pengaduan")
+                        .setView(viewDecline)
+                        .setPositiveButton("Kirim Pengaduan", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                EditText etReport=viewDecline.findViewById(R.id.et_report);
+                                desc=etReport.getText().toString();
+
+                                try {
+                                    ConnectionHelper connectionHelper=new ConnectionHelper();
+                                    Connection connect=connectionHelper.connections();
+                                    ResultSet rs=null;
+
+                                    if (connect == null){
+                                        Toast.makeText(getContext(),"Check Your Connection",Toast.LENGTH_LONG).show();
+                                    }else{
+                                        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
+                                        SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault());
+                                        Date now = new Date();
+                                        String id = userEmail+"_"+formatter.format(now);
+
+                                        String query=String.format("Insert into report values ('%s','%s','%s',TO_DATE('%s', 'yyyy/mm/dd hh24:mi:ss'))",id,userEmail,desc,formatter2.format(now));
+                                        Statement stmt=connect.createStatement();
+                                        stmt.executeUpdate(query);
+                                        rs=stmt.executeQuery(query);
+
+                                        connect.close();
+                                        Toast.makeText(getContext(),"Pengaduan telah dikirim",Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (Exception e) {
+                                    Log.e("gagals", String.valueOf(e));
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).setNeutralButton("Batal", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+
+                alertReport.show();
+            }
+        });
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,6 +178,7 @@ public class OrderFragment extends Fragment {
                 btnAkte.setVisibility(View.VISIBLE);
                 btnOrder2.startAnimation(fromBottomAnimation);
                 btnAkte.startAnimation(fromBottomAnimation);
+                btnReport.startAnimation(fromBottomAnimation);
             }
 
             private void closeFABMenu(){
@@ -122,6 +188,7 @@ public class OrderFragment extends Fragment {
                 btnAkte.setVisibility(View.INVISIBLE);
                 btnOrder2.startAnimation(toBottomAnimation);
                 btnAkte.startAnimation(toBottomAnimation);
+                btnReport.startAnimation(toBottomAnimation);
             }
         });
 
